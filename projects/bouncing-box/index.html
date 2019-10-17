@@ -21,7 +21,11 @@
 			top: 100px;
 			left: 0px;
 		}
-	</style>
+        body {
+            background-image: url(https://images4.alphacoders.com/814/81446.jpg)
+        }
+     </style>
+		
 
 </head>
 <body class="board">
@@ -61,7 +65,7 @@
                     direction = -1;
                     console.log(direction);
                 }
-                if(position < boardWidth) {
+                if(position < 0) {
                     console.log("Left Wall Hit");
                     direction = 1;
                     console.log(direction);
@@ -69,7 +73,7 @@
     
                
                box.css('left', position);      // set the 'left' CSS property of the box to the new value of position
-
+            
 			}
 
             function handleBoxClick() {
