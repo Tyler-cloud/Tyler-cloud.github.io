@@ -1,7 +1,8 @@
 var background = function (window) {
     var tree;
+    var building = [];
     'use strict';
-
+    
     
     window.opspark = window.opspark || {};
     var draw = window.opspark.draw;
@@ -86,17 +87,24 @@ var background = function (window) {
             var groundY = ground.y;
             
             // TODO 4: Part 2 - Move the tree!
-            tree.x = tree.x + 1;
-            if(tree.x < -200) {
+            tree.x = tree.x - 1;
+            if(tree.x <  -200) {
                 tree.x = canvasWidth;
             }
             
             // TODO 5: Part 2 - Parallax
-            
+            for (var i = 0; i < buildings.length; i++){
+                var building = buildings[i];
+                console.log(building.name);
+                building.x = building.x - .99;
+                if(building.x <  -200) {
+                    building.x = canvasWidth;
+                }
+    
+            } // end of update function - DO NOT DELETE
+        
+        }
 
-        } // end of update function - DO NOT DELETE
-        
-        
         
         /* Make a createjs Container for the background and let it know about the render and upate functions*/
         background = new createjs.Container();
