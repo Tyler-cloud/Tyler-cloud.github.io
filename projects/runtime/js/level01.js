@@ -20,7 +20,11 @@ var level01 = function (window) {
                 {type: 'sawblade',x:600,y:groundY},
                 {type: 'sawblade',x:900,y:100},
                 {type: 'sawblade',x:500,y:groundY},
-                {type: 'laser',x:100,y:200}
+                {type: 'laser',x:100,y:200},
+                {type: 'enemy',x:400,y:groundY-10},
+                {type: 'enemy',x:800,y:groundY-100},
+                {type: 'enemy',x:1200,y:groundY-50},
+                {type: 'trophy',x:400,y:groundY-50}
             ]
         };
         window.levelData = levelData;
@@ -43,8 +47,18 @@ var level01 = function (window) {
 
         for (var i = 0; i < levelData.gameItems.length; i++) {
             var gameItem = levelData.gameItems[i]
-            createSawBlade(gameItem.x, gameItem.y)
-            createLaser(gameItem.x, gameItem.y)
+            if (gameItem.type === 'sawblade') {
+                createSawBlade(gameItem.x, gameItem.y);
+            }
+            else if (gameItem.type === 'laser') {
+                createLaser(gameItem.x, gameItem.y);
+            }
+            else if (gameItem.type === 'enemy') {
+                createEnemy(gameItem.x, gameItem.y);
+            }
+            else if (gameItem.type === 'trophy') {
+                createTrophy(gameItem.x, gameItem.y)
+             }
         }
         function createLaser(x,y) {
             var damageFromObstacle = 10;
@@ -58,7 +72,9 @@ var level01 = function (window) {
             obstacleImage.x = -25;
             obstacleImage.y = -25;
         }
-        var enemy =  game.createGameItem('enemy',25);
+
+        function createEnemy() {
+             var enemy =  game.createGameItem('enemy',25);
             var redSquare = draw.rect(50,50,'blue');
             redSquare.x = -25;
             redSquare.y = -25;
@@ -70,10 +86,31 @@ var level01 = function (window) {
             enemy.rotationalVelocity = 10;
             enemy.onPlayerCollision = function() {
                 console.log('The enemy has hit Halle');
-            game.changeIntegrity(-10);
+                game.changeIntegrity(-10);
                 console.log('Halle has hit the enemy')
-            game.increaseScore(100);
+                game.increaseScore(100);
+                enemy.fadeOut();
             };
+        }
+        function createTrophy() {
+            var enemy =  game.createGameItem('enemy',25);
+            var blueSquare = draw.rect(50,50,'blue');
+            redSquare.x = -25;
+            redSquare.y = -25;
+            enemy.addChild(blueSquare);
+            enemy.x = 400;
+            enemy.y = groundY-50;
+            game.addGameItem(enemy);
+            enemy.velocityX = -1;
+            enemy.rotationalVelocity = 10;
+            enemy.onPlayerCollision = function() {
+                console.log('The trophy has hit Halle');
+                game.changeIntegrity(-10);
+                console.log('Halle has hit the trophy')
+                game.increaseScore(100);
+                enemy.fadeOut();
+            };
+        }
         // ONLY EDIT ABOVE HERE
     }
 };
