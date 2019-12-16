@@ -25,7 +25,7 @@ var level01 = function (window) {
         };
         window.levelData = levelData;
         // set this to true or false depending on if you want to see hitzones
-        game.setDebugMode(false);
+        game.setDebugMode(true);
 
         // BEGIN EDITING YOUR CODE HERE
         function createSawBlade(x,y) {
@@ -47,17 +47,33 @@ var level01 = function (window) {
             createLaser(gameItem.x, gameItem.y)
         }
         function createLaser(x,y) {
-         var damageFromObstacle = 10;
+            var damageFromObstacle = 10;
+            var hitZoneSize = 25;
             var myObstacle = game.createObstacle(hitZoneSize,damageFromObstacle);
             myObstacle.x = x;
             myObstacle.y = y;
             game.addGameItem(myObstacle);
-            var obstacleImage = draw.bitmap('img/sawblade.png');
+            var obstacleImage = draw.bitmap('img/Laser2.png');
             myObstacle.addChild(obstacleImage);
             obstacleImage.x = -25;
             obstacleImage.y = -25;
         }
-
+        var enemy =  game.createGameItem('enemy',25);
+            var redSquare = draw.rect(50,50,'blue');
+            redSquare.x = -25;
+            redSquare.y = -25;
+            enemy.addChild(redSquare);
+            enemy.x = 400;
+            enemy.y = groundY-50;
+            game.addGameItem(enemy);
+            enemy.velocityX = -1;
+            enemy.rotationalVelocity = 10;
+            enemy.onPlayerCollision = function() {
+                console.log('The enemy has hit Halle');
+            game.changeIntegrity(-10);
+                console.log('Halle has hit the enemy')
+            game.increaseScore(100);
+            };
         // ONLY EDIT ABOVE HERE
     }
 };
